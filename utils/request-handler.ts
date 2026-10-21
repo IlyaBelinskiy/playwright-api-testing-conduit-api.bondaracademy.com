@@ -3,6 +3,7 @@
 import { APIRequestContext } from "@playwright/test";
 import { APILogger } from "./logger";
 import { test } from "@playwright/test";
+import { step } from "../helpers/test-step-decorator";
 
 
 export class RequestHandler {
@@ -131,6 +132,74 @@ export class RequestHandler {
             this.statusCodeValidator(actualStatus, statusCode, this.deleteRequest)
         })
     }
+
+    // Variant with TypeScript method decorator
+    // @step
+    // async getRequest(statusCode: number) {
+    //     const url = this.getUrl()
+    //     this.logger.logRequest('GET', url, this.getHeaders())
+    //     const response = await this.request.get(url, {
+    //         headers: this.getHeaders()
+    //     })
+    //     this.cleanupFields()
+    //     const actualStatus = response.status()
+    //     const responseJSON = await response.json()
+
+    //     this.logger.logResponse(actualStatus, responseJSON)
+    //     this.statusCodeValidator(actualStatus, statusCode, this.getRequest)
+
+    //     return responseJSON
+    // }
+
+    // @step
+    // async postRequest(statusCode: number) {
+    //     const url = this.getUrl()
+    //     this.logger.logRequest('POST', url, this.getHeaders(), this.apiBody)
+    //     const response = await this.request.post(url, {
+    //         headers: this.getHeaders(),
+    //         data: this.apiBody
+    //     })
+    //     this.cleanupFields()
+    //     const actualStatus = response.status()
+    //     const responseJSON = await response.json()
+
+    //     this.logger.logResponse(actualStatus, responseJSON)
+    //     this.statusCodeValidator(actualStatus, statusCode, this.postRequest)
+
+    //     return responseJSON
+    // }
+
+    // @step
+    // async putRequest(statusCode: number) {
+    //     const url = this.getUrl()
+    //     this.logger.logRequest('PUT', url, this.getHeaders(), this.apiBody)
+    //     const response = await this.request.put(url, {
+    //         headers: this.getHeaders(),
+    //         data: this.apiBody
+    //     })
+    //     this.cleanupFields()
+    //     const actualStatus = response.status()
+    //     const responseJSON = await response.json()
+
+    //     this.logger.logResponse(actualStatus, responseJSON)
+    //     this.statusCodeValidator(actualStatus, statusCode, this.putRequest)
+
+    //     return responseJSON
+    // }
+
+    // @step
+    // async deleteRequest(statusCode: number) {
+    //     const url = this.getUrl()
+    //     this.logger.logRequest('DELETE', url, this.getHeaders())
+    //     const response = await this.request.delete(url, {
+    //         headers: this.getHeaders()
+    //     })
+    //     this.cleanupFields()
+    //     const actualStatus = response.status()
+
+    //     this.logger.logResponse(actualStatus)
+    //     this.statusCodeValidator(actualStatus, statusCode, this.deleteRequest)
+    // }
 
     private getUrl() {
         const url = new URL(`${this.baseUrl ?? this.defaultBaseUrl}${this.apiPath}`) // In JavaScript, ?? is the Nullish Coalescing Operator. It is a logical operator that returns its right-hand operand when its left-hand operand is either null or undefined. 
