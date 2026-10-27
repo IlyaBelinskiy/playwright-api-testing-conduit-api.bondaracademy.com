@@ -1,5 +1,3 @@
-/// <reference types="node" />
-
 import { APIRequestContext } from "@playwright/test";
 import { APILogger } from "./logger";
 import { test } from "@playwright/test";

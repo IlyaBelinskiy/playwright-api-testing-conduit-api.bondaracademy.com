@@ -1,5 +1,3 @@
-/// <reference types="node" />
-
 import { test, expect, request } from '@playwright/test';
 
 test('create article', async ({ page }) => {

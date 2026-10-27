@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        // Ensure "node" is included in types (or remove the "types" array entirely so it auto-loads everything)
+        "types": [
+            "node"
+        ]
+    }
+}
