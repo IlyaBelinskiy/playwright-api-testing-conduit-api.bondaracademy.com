@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -17,7 +19,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: 1,
   reporter: [['html'], ['list']],
-  use: {},
+  use: {
+    trace: 'retain-on-failure'
+  },
 
   projects: [
     {
@@ -27,7 +31,7 @@ export default defineConfig({
     },
     {
       name: 'smoke-tests',
-      testMatch: 'smoke*'
+      // testMatch: 'smoke*'
     }
   ],
 });

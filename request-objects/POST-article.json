@@ -1,0 +1,10 @@
+{
+    "article": {
+        "title": "Test title Playwright 1.63",
+        "description": "Some description",
+        "body": "This is a body",
+        "tagList": [
+            "Test"
+        ]
+    }
+}

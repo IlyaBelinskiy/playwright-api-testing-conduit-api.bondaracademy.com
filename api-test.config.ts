@@ -1,5 +1,9 @@
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
 const processENV = process.env.TEST_ENV
-const env = processENV || 'dev'
+const env = processENV || 'prod'
 console.log('Test environment is: ' + env)
 
 const config = {
@@ -14,11 +18,26 @@ if (env === 'qa') {
 }
 
 if (env === 'prod') {
-    config.userEmail = '',
-        config.userPassword = ''
+    // if (!process.env.PROD_EMAIL || !process.env.PROD_PASSWORD) { // Option 2 Mandotory fields required
+    //     throw Error(`Missing required environment variable`)
+    // }
+    config.userEmail = process.env.PROD_EMAIL as string, // Option 1 As a string
+        config.userPassword = process.env.PROD_PASSWORD as string
 }
 
 export { config }
+
+// CMD commands:
+
+// (set "PROD_EMAIL=oipunk@xyz.com" & set "PROD_PASSWORD=oipunk1987") && npx playwright test smokeTest.spec.ts
+
+// (set TEST_ENV=prod & set "PROD_EMAIL=oipunk@xyz.com" & set "PROD_PASSWORD=oipunk1987") && npx playwright test smokeTest.spec.ts
+
+// (set TEST_ENV=prod) && npx playwright test smokeTest.spec.ts
+
+// echo %PROD_EMAIL%
+
+// echo %PROD_PASSWORD%
 
 
 // The issue happens because using && in Windows Command Prompt (cmd.exe) includes a trailing space in your variable value.

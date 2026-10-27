@@ -2,6 +2,9 @@ import { test } from '../utils/fixtures';
 import { expect } from '../utils/custom-expect';
 import { validateSchema } from '../utils/schema-validator';
 // import { createToken } from '../helpers/createToken';
+import articleRequestPayload from '../request-objects/POST-article.json';
+import { faker } from '@faker-js/faker';
+import { getNewRandomArticle } from '../utils/data-generator';
 
 // let authToken: string
 
@@ -34,21 +37,21 @@ test('Get Test Tags', async ({ api }) => {
         .getRequest(200)
     await expect(tagsResponse).shouldMatchSchema('tags', 'GET_tags')
     // await validateSchema('tags', 'GET_tags', tagsResponse)
-    expect(tagsResponse.tags[0]).shouldEqual('Test')
+    expect(tagsResponse.tags[0]).shouldEqual('Test121')
     expect(tagsResponse.tags.length).shouldBeLessThanOrEqual(10)
 })
 
 test('Create and Delete Article', async ({ api }) => {
+    // const articleRequest = JSON.parse(JSON.stringify(articleRequestPayload)) // This line of code is needed when you run tests in parallel. It breaks the dependency on the initial reference to original object
+    // articleRequest.article.title = "This is an object title"
+    const articleRequest = getNewRandomArticle()
     const createArticleResponse = await api
         .path('/articles')
         // .headers({ Authorization: authToken })
-        .body({ "article": { "title": "Test title Playwright 1.63", "description": "Some description", "body": "This is a body", "tagList": ["Test"] } })
+        .body(articleRequest)
         .postRequest(201)
     await expect(createArticleResponse).shouldMatchSchema('articles', 'POST_articles')
-    expect(createArticleResponse.article.title).shouldEqual('Test title Playwright 1.63')
-    expect(createArticleResponse.article.description).shouldEqual('Some description')
-    expect(createArticleResponse.article.body).shouldEqual('This is a body')
-    expect(createArticleResponse.article.tagList[0]).shouldEqual('Test')
+    expect(createArticleResponse.article.title).shouldEqual(articleRequest.article.title)
     const slugId = createArticleResponse.article.slug
 
     const articlesWithPrivateResponse = await api
@@ -57,10 +60,7 @@ test('Create and Delete Article', async ({ api }) => {
         // .headers({ Authorization: authToken })
         .getRequest(200)
     await expect(articlesWithPrivateResponse).shouldMatchSchema('articles', 'GET_articles')
-    expect(articlesWithPrivateResponse.articles[0].title).shouldEqual('Test title Playwright 1.63')
-    expect(articlesWithPrivateResponse.articles[0].description).shouldEqual('Some description')
-    expect(articlesWithPrivateResponse.articles[0].body).shouldEqual('This is a body')
-    expect(articlesWithPrivateResponse.articles[0].tagList[0]).shouldEqual('Test')
+    expect(articlesWithPrivateResponse.articles[0].title).shouldEqual(articleRequest.article.title)
 
     await api
         .path(`/articles/${slugId}`)
@@ -73,36 +73,31 @@ test('Create and Delete Article', async ({ api }) => {
         // .headers({ Authorization: authToken })
         .getRequest(200)
     await expect(articlesWithPrivateResponseTwo).shouldMatchSchema('articles', 'GET_articles')
-    expect(articlesWithPrivateResponseTwo.articles[0].title).not.shouldEqual('Test title Playwright 1.63')
-    expect(articlesWithPrivateResponseTwo.articles[0].description).not.shouldEqual('Some description')
-    expect(articlesWithPrivateResponseTwo.articles[0].body).not.shouldEqual('This is a body')
-    expect(articlesWithPrivateResponseTwo.articles[0].tagList[0]).not.shouldEqual('Test')
+    expect(articlesWithPrivateResponseTwo.articles[0].title).not.shouldEqual(articleRequest.article.title)
 })
 
 test('Create, Update and Delete Article', async ({ api }) => {
+    const articleTitle = faker.lorem.sentence(5)
+    const articleRequest = JSON.parse(JSON.stringify(articleRequestPayload))
+    articleRequest.article.title = articleTitle
     const createArticleResponse = await api
         .path('/articles')
         // .headers({ Authorization: authToken })
-        .body({ "article": { "title": "Test title JavaScript", "description": "Some description", "body": "This is a body", "tagList": ["Zoom"] } })
+        .body(articleRequest)
         .postRequest(201)
     await expect(createArticleResponse).shouldMatchSchema('articles', 'POST_articles')
-    expect(createArticleResponse.article.title).shouldEqual('Test title JavaScript')
-    expect(createArticleResponse.article.description).shouldEqual('Some description')
-    expect(createArticleResponse.article.body).shouldEqual('This is a body')
-    expect(createArticleResponse.article.tagList[0]).shouldEqual('Zoom')
-
+    expect(createArticleResponse.article.title).shouldEqual(articleTitle)
     const slugId = createArticleResponse.article.slug
 
+    const articleTitleTwo = faker.lorem.sentence(5)
+    articleRequest.article.title = articleTitleTwo
     const updateArticleResponse = await api
         .path(`/articles/${slugId}`)
         // .headers({ Authorization: authToken })
-        .body({ "article": { "title": "Test title JavaScript modified", "description": "Some new description", "body": "This is a different body", "tagList": ["Git"] } })
+        .body(articleRequest)
         .putRequest(200)
     await expect(updateArticleResponse).shouldMatchSchema('articles', 'PUT_articles')
-    expect(updateArticleResponse.article.title).shouldEqual('Test title JavaScript modified')
-    expect(updateArticleResponse.article.description).shouldEqual('Some new description')
-    expect(updateArticleResponse.article.body).shouldEqual('This is a different body')
-    expect(updateArticleResponse.article.tagList[0]).shouldEqual('Git')
+    expect(updateArticleResponse.article.title).shouldEqual(articleTitleTwo)
     const newSlugId = updateArticleResponse.article.slug
 
     const articlesWithPrivateResponse = await api
@@ -111,10 +106,7 @@ test('Create, Update and Delete Article', async ({ api }) => {
         // .headers({ Authorization: authToken })
         .getRequest(200)
     await expect(articlesWithPrivateResponse).shouldMatchSchema('articles', 'GET_articles')
-    expect(articlesWithPrivateResponse.articles[0].title).shouldEqual('Test title JavaScript modified')
-    expect(articlesWithPrivateResponse.articles[0].description).shouldEqual('Some new description')
-    expect(articlesWithPrivateResponse.articles[0].body).shouldEqual('This is a different body')
-    expect(articlesWithPrivateResponse.articles[0].tagList[0]).shouldEqual('Git')
+    expect(articlesWithPrivateResponse.articles[0].title).shouldEqual(articleTitleTwo)
 
     await api
         .path(`/articles/${newSlugId}`)
@@ -127,10 +119,7 @@ test('Create, Update and Delete Article', async ({ api }) => {
         // .headers({ Authorization: authToken })
         .getRequest(200)
     await expect(articlesWithPrivateResponseTwo).shouldMatchSchema('articles', 'GET_articles')
-    expect(articlesWithPrivateResponseTwo.articles[0].title).not.shouldEqual('Test title JavaScript modified')
-    expect(articlesWithPrivateResponseTwo.articles[0].description).not.shouldEqual('Some new description')
-    expect(articlesWithPrivateResponseTwo.articles[0].body).not.shouldEqual('This is a different body')
-    expect(articlesWithPrivateResponseTwo.articles[0].tagList[0]).not.shouldEqual('Git')
+    expect(articlesWithPrivateResponseTwo.articles[0].title).not.shouldEqual(articleTitleTwo)
 })
 
 // test('logger', () => {
@@ -145,3 +134,5 @@ test('Create, Update and Delete Article', async ({ api }) => {
 //     console.log(logs)
 //     console.log(logs2)
 // })
+
+// By using JSON.parse(JSON.stringify(articleRequestPayload)), the test creates a isolated, mutable copy of the JSON template. This ensures that any runtime modifications made to articleRequest during the test do not pollute or mutate the imported articleRequestPayload module for subsequent tests.
