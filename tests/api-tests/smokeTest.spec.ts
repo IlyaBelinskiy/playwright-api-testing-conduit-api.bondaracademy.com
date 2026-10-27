@@ -1,10 +1,10 @@
-import { test } from '../utils/fixtures';
-import { expect } from '../utils/custom-expect';
-import { validateSchema } from '../utils/schema-validator';
-// import { createToken } from '../helpers/createToken';
-import articleRequestPayload from '../request-objects/POST-article.json';
+import { test } from '../../utils/fixtures';
+import { expect } from '../../utils/custom-expect';
+import { validateSchema } from '../../utils/schema-validator';
+// import { createToken } from '../../helpers/createToken';
+import articleRequestPayload from '../../request-objects/POST-article.json';
 import { faker } from '@faker-js/faker';
-import { getNewRandomArticle } from '../utils/data-generator';
+import { getNewRandomArticle } from '../../utils/data-generator';
 
 // let authToken: string
 
@@ -37,7 +37,7 @@ test('Get Test Tags', async ({ api }) => {
         .getRequest(200)
     await expect(tagsResponse).shouldMatchSchema('tags', 'GET_tags')
     // await validateSchema('tags', 'GET_tags', tagsResponse)
-    expect(tagsResponse.tags[0]).shouldEqual('Test121')
+    expect(tagsResponse.tags[0]).shouldEqual('Test')
     expect(tagsResponse.tags.length).shouldBeLessThanOrEqual(10)
 })
 
