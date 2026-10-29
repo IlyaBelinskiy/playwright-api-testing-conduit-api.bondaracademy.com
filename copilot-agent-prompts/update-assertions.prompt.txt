@@ -6,10 +6,10 @@ Delete request does not have a response, so schema validation is not needed for 
 
 shouldMatchSchema() method has 3 arguments:
 first argument: folder name of the schema location. It should match the name of endpoint. 
-Example: "/tags" is the endpoint, so the folder name should be "tags"
+Example: "/tags" is the endpoint, so the folder name should be "tags".
 
 second argument: file name of schema. It should be in the following format "[REQUEST TYPE]_[endpoint]". 
-Example: "GET_tags" where "GET" is the request type and "tags" is the endpoint 
+Example: "GET_tags" where "GET" is the request type and "tags" is the endpoint. 
 
 third argument: is boolean and it's optional. When "true" is provided, the new schema file will 
 be generated.

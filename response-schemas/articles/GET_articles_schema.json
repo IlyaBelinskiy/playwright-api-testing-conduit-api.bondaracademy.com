@@ -25,12 +25,10 @@
                         }
                     },
                     "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
+                        "type": "string"
                     },
                     "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
+                        "type": "string"
                     },
                     "favorited": {
                         "type": "boolean"
