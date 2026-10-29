@@ -3,7 +3,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const processENV = process.env.TEST_ENV
-const env = processENV || 'dev'
+const env = processENV || 'prod'
 console.log('Test environment is: ' + env)
 
 const config = {

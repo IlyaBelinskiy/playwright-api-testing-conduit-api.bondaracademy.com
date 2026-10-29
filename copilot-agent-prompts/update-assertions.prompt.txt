@@ -1,4 +1,4 @@
-I want to add a schema validation to all API requests that have responses.
+I want to add a schema validation to all API requests that have responses only in #file:smokeTest.spec.ts. Do not modify any other files in the workspace.
 
 To make a schema validation use the method shouldMatchSchema(). 
 This method should be used for all API requests that have a response. 
