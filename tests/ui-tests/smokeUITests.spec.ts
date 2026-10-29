@@ -14,12 +14,12 @@ test('create article', async ({ page }) => {
     await page.getByRole('button', { name: 'Publish Article' }).click()
     await expect(page.locator('.article-page h1')).toContainText('Playwright is awesome')
     await page.getByText('Home').click()
-    await page.getByText('Global feed').click()
+    // await page.getByText('Global feed').click()
 
     await page.getByText('Playwright is awesome').click()
     await page.getByRole('button', { name: 'Delete Article' }).first().click()
-    await page.getByText('Global Feed').click()
-
+    // await page.getByText('Global Feed').click()
+    await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles?limit=10&offset=0') // A good point that when you make a negative assertions in the test, it is possible that negative assertions can be false possitive. To avoid it a good rule of thumb is to add a dynamic wait waitForResponse() that would wait for the completion of the API call in the background, making sure that your application in the right state before the validation
     await expect(page.locator('app-article-list h1').first()).not.toContainText('Playwright is awesome')
 })
 
