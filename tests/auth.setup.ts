@@ -4,10 +4,10 @@ import fs from 'fs';
 import user from '../test-data/user.json';
 
 
-const authFile = path.join(__dirname, '../playwright/.auth/user.json')
+const authFile = path.join(__dirname, '../playwright/.auth/user.json') // authFile: Defines the absolute file path where the authentication state (storage state) will be saved as a JSON file
 
 setup('authenticate', async ({ page, request }) => {
-    if (fs.existsSync(authFile)) {
+    if (fs.existsSync(authFile)) { // fs.existsSync(authFile) is a synchronous method from Node.js's file system (fs) module that checks if a file or directory already exists at the specified path
         const loginResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
             data: user
         })
@@ -15,9 +15,9 @@ setup('authenticate', async ({ page, request }) => {
         const loginResponseJSON = await loginResponse.json()
         const token = loginResponseJSON.user.token
 
-        const storageStateFile = JSON.parse(fs.readFileSync(authFile, { encoding: 'utf-8' }))
+        const storageStateFile = JSON.parse(fs.readFileSync(authFile, { encoding: 'utf-8' })) // fs.readFileSync(...): Reads the existing authentication file
         storageStateFile.origins[0].localStorage[0].value = token
-        fs.writeFileSync(authFile, JSON.stringify(storageStateFile, null, 2))
+        fs.writeFileSync(authFile, JSON.stringify(storageStateFile, null, 2)) // fs.writeFileSync(...): Overwrites the old file with the newly updated token so future tests can use it immediately
     } else {
         await page.goto('/')
         await page.getByText('Sign in').click()
@@ -27,6 +27,6 @@ setup('authenticate', async ({ page, request }) => {
 
         await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible()
 
-        await page.context().storageState({ path: authFile })
+        await page.context().storageState({ path: authFile }) // page.context().storageState(...): Captures the entire browser session context (cookies, local storage, session storage) and saves it to the authFile path for future test runs
     }
 });

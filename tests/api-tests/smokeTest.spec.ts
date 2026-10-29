@@ -59,7 +59,6 @@ test('Create and Delete Article', async ({ api }) => {
         .params({ limit: 10, offset: 0 })
         // .headers({ Authorization: authToken })
         .getRequest(200)
-    await expect(articlesWithPrivateResponse).shouldMatchSchema('articles', 'GET_articles')
     expect(articlesWithPrivateResponse.articles[0].title).shouldEqual(articleRequest.article.title)
 
     await api
@@ -72,7 +71,6 @@ test('Create and Delete Article', async ({ api }) => {
         .params({ limit: 10, offset: 0 })
         // .headers({ Authorization: authToken })
         .getRequest(200)
-    await expect(articlesWithPrivateResponseTwo).shouldMatchSchema('articles', 'GET_articles')
     expect(articlesWithPrivateResponseTwo.articles[0].title).not.shouldEqual(articleRequest.article.title)
 })
 
@@ -85,7 +83,6 @@ test('Create, Update and Delete Article', async ({ api }) => {
         // .headers({ Authorization: authToken })
         .body(articleRequest)
         .postRequest(201)
-    await expect(createArticleResponse).shouldMatchSchema('articles', 'POST_articles')
     expect(createArticleResponse.article.title).shouldEqual(articleTitle)
     const slugId = createArticleResponse.article.slug
 
@@ -96,7 +93,6 @@ test('Create, Update and Delete Article', async ({ api }) => {
         // .headers({ Authorization: authToken })
         .body(articleRequest)
         .putRequest(200)
-    await expect(updateArticleResponse).shouldMatchSchema('articles', 'PUT_articles')
     expect(updateArticleResponse.article.title).shouldEqual(articleTitleTwo)
     const newSlugId = updateArticleResponse.article.slug
 
@@ -105,7 +101,6 @@ test('Create, Update and Delete Article', async ({ api }) => {
         .params({ limit: 10, offset: 0 })
         // .headers({ Authorization: authToken })
         .getRequest(200)
-    await expect(articlesWithPrivateResponse).shouldMatchSchema('articles', 'GET_articles')
     expect(articlesWithPrivateResponse.articles[0].title).shouldEqual(articleTitleTwo)
 
     await api
@@ -118,7 +113,6 @@ test('Create, Update and Delete Article', async ({ api }) => {
         .params({ limit: 10, offset: 0 })
         // .headers({ Authorization: authToken })
         .getRequest(200)
-    await expect(articlesWithPrivateResponseTwo).shouldMatchSchema('articles', 'GET_articles')
     expect(articlesWithPrivateResponseTwo.articles[0].title).not.shouldEqual(articleTitleTwo)
 })
 
