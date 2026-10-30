@@ -16,7 +16,7 @@ export default defineConfig({
   fullyParallel: true,
   retries: process.env.CI ? 2 : 0,
   workers: 1,
-  reporter: [['html'], ['list']],
+  reporter: [['html', { open: 'never' }], ['list']], // The flag { open: 'never' } prevents opening the browsel when the test fails 
   use: {
     baseURL: 'https://conduit.bondaracademy.com/',
     trace: 'retain-on-failure'

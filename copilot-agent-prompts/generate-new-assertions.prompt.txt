@@ -1,0 +1,6 @@
+Here is the API response object for the Get Articles test:
+
+[PASTE YOUR RESPONSE OBJECT HERE]
+
+I want you to suggest the assertions that can be useful to validate in this response. 
+Don't suggest any validation of data types because the shouldMatchSchema() method already cover those.

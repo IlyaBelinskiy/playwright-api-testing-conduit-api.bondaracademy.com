@@ -29,6 +29,10 @@ test('Get All Articles', async ({ api }) => {
     await expect(articlesResponse).shouldMatchSchema('articles', 'GET_articles')
     expect(articlesResponse.articles.length).shouldBeLessThanOrEqual(10)
     expect(articlesResponse.articlesCount).shouldEqual(10)
+    for (const article of articlesResponse.articles) {
+        const sanitizedTitle = article.title.trim().replace(/,/g, '').replace(/\s+/g, '-')
+        expect(article.slug).toMatch(new RegExp(`^${sanitizedTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-\\d+$`))
+    }
 })
 
 test('Get Test Tags', async ({ api }) => {

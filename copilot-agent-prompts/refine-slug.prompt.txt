@@ -1,0 +1,9 @@
+Let's keep only the test // Verify slug contains sanitized title.
+
+Here are business requirement about title and slug format to consider in the regex validation: 
+title text and slug text should be the same, except words in the slug should be separated by "-" 
+and the end of the slug should be uppended with any number.
+
+Examples:
+Title: "Discover Bondar Academy: Your Gateway to Efficient Learning"
+Slug: "Discover-Bondar-Academy:-Your-Gateway-to-Efficient-Learning-1"

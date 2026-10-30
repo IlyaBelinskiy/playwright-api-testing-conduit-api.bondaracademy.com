@@ -1,0 +1,4 @@
+to run a specific tests in Playwright by test name you can use a command like: 
+npx playwright test -g "add a todo item", where "add a todo item" is the name of the test.
+
+Run test with name "Get Articles"
