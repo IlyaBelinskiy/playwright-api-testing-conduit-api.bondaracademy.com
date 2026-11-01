@@ -48,7 +48,7 @@ export default defineConfig({
     {
       name: 'ui-tests-with-api-mocking',
       testDir: './tests/ui-tests',
-      testMatch: 'working-with-apis_w_mocking.spec.ts',
+      testMatch: 'working-with-apis-w-mocking.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
         // Use prepared auth state.

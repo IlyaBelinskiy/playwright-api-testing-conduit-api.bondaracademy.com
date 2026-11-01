@@ -34,22 +34,30 @@ test('has title', async ({ page }) => {
 
     // Mocking API --> Edge cases, hard cases, error messages. The full integration test IS NOT saved here because there is no server response
     await page.route('*/**/api/tags', async route => { // */** - A wildcard concept. It replaces any base URL we have. (route) --> TypeScript allows to use only route if it's the only parameter in the callback array function
-        await route.fulfill({ // Fulfills route's request with given response
-            // body: JSON.stringify(tags)
-            json: tags
-        })
+        if (route.request().method().includes('GET')) {
+            await route.fulfill({ // Fulfills route's request with given response
+                // body: JSON.stringify(tags)
+                json: tags
+            })
+        } else {
+            route.continue()
+        }
     })
 
     // Modify API Response --> Edge cases, hard cases, error messages. Using to mimic the behaviour, some scenario on you app but the response is pretty big. The full integration test IS saved here because there is a server response
     await page.route('*/**/api/articles*', async route => {
-        const response = await route.fetch() // Fetch the response from the server. Performs the request and fetches result without fulfilling it, so that the response could be modified and then fulfilled
-        const responseJSON = await response.json()
-        responseJSON.articles[0].title = 'This is a MOCK title for the article'
-        responseJSON.articles[0].description = 'This is a MOCK description for the article'
-        responseJSON.articles[0].favoritesCount = 1000000
-        await route.fulfill({ // Fulfills route's request with given response
-            json: responseJSON
-        })
+        if (route.request().method().includes('GET')) {
+            const response = await route.fetch() // Fetch the response from the server. Performs the request and fetches result without fulfilling it, so that the response could be modified and then fulfilled
+            const responseJSON = await response.json()
+            responseJSON.articles[0].title = 'This is a MOCK title for the article'
+            responseJSON.articles[0].description = 'This is a MOCK description for the article'
+            responseJSON.articles[0].favoritesCount = 1000000
+            await route.fulfill({ // Fulfills route's request with given response
+                json: responseJSON
+            })
+        } else {
+            route.continue()
+        }
     })
 
     await page.goto('/')
