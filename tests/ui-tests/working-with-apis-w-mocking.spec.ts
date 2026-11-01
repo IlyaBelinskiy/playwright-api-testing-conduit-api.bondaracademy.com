@@ -28,7 +28,7 @@ import article from '../../test-data/article.json';
 //     await page.goto('https://conduit.bondaracademy.com/')
 // })
 
-test('has title', async ({ page }) => {
+test('Has title', async ({ page }) => {
 
     // Mocking API & Modify API Response: In order to work the page.route() method must be call BEFORE the intercepting API request call
 
