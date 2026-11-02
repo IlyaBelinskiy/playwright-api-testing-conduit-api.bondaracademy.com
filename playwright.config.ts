@@ -12,6 +12,8 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  // Fail the run after an hour, so that the reporters still produce a report.
+  globalTimeout: 60 * 60 * 1000,
   testDir: './tests',
   fullyParallel: true,
   retries: process.env.CI ? 2 : 0,
