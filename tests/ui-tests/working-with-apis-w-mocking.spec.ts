@@ -64,7 +64,7 @@ test('Has title', async ({ page }) => {
 
     await expect(page.locator('.navbar-brand')).toHaveText(/conduit/)
     await expect(page.locator('.sidebar .tag-pill')).toContainText(['Automation', 'Playwright']) // If you are mocking some API requests, there MUST BE validation inside of the test, preferably with a locator assertion, to make sure that application is in the right state when you apply the mock
-    await expect(page.locator('.preview-link h1').first()).toContainText('This is a MOCK title for the article')
+    await expect(page.locator('.preview-link h1').first()).toContainText('This is a MOCK title for the article SHOULD FAIL')
     await expect(page.locator('.preview-link p').first()).toContainText('This is a MOCK description for the article')
     await expect(page.locator('app-favorite-button').first()).toHaveText('1000000')
 })
